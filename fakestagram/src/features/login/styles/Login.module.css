@@ -1,0 +1,50 @@
+.loginPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    gap: 10px;
+}
+
+.formLoginWrapper {
+    padding: 50px 20px !important;
+}
+
+.loginPage img:first-child {
+    width: 55%;
+    margin-bottom: 20px;
+}
+
+.loginForm {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.loginForm a {
+    text-align: end;
+    color: var(--border-color);
+    text-decoration: none;
+}
+
+.socialLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.socialLoginOption {
+    background-color: var(--button-secondary);
+    color: var(--button-on-secondary);
+    width: 100%;
+}
+
+.socialLoginOption:hover {
+    background-color: var(--button-secondary-hover) !important;
+}

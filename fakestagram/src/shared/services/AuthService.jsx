@@ -1,37 +1,30 @@
+// useAuthService.js
 import useApi from "../hooks/useApi";
 
-export const AuthService = () => {
+const useAuthService = () => {
   const { doRequest } = useApi();
 
   const register = async (username, email, password) => {
-    try {
-      const response = await doRequest(
-        "/auth/register", 
-        "POST", 
-        { username, email, password },
-        false
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await doRequest(
+      "auth/register",
+      "POST",
+      { username, email, password },
+      false
+    );
+    return response;
   };
 
   const login = async (email, password) => {
-    try {
-      const response = await doRequest(
-        "/auth/login", 
-        "POST", 
-        { email, password },
-        false
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await doRequest(
+      "auth/login",
+      "POST",
+      { email, password },
+      false
+    );
+    return response;
   };
 
-  return { register, login };
+  return { login, register };
 };
 
-export default AuthService;
+export default useAuthService;

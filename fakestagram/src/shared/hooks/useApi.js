@@ -11,35 +11,31 @@ import axios from "axios";
     @param {string} method - Método HTTP a utilizar.
     @param {Object} data - Datos a enviar en la petición.
     @param {boolean} requiresToken - Indica si la petición requiere usar el token del usuario.
-    @returns {Object} - Objeto con la función makeRequest.
+    @returns {Object} - Objeto con la función doRequest.
 */
 const useApi = () => {
-  const makeRequest = useCallback(async (url, method = 'GET', data = null, requiresToken = false) => {
+  const doRequest = useCallback(async (url, method = 'GET', data = null, requiresToken = false) => {
     let headers = {
       "Content-Type": "application/json",
     };
     if (requiresToken) {
-      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user'));
+      const token = user?.token;
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
     }
 
-    try {
-      const response = await axios({
-        url: `http://64.23.228.143:3001/api/${url}`,
-        method,
-        headers,
-        data,
-      });
-      return response;
-    } catch (error) {
-      console.error("Error en la request:", error);
-      throw error;
-    }
+    const response = await axios({
+      url: `http://64.23.228.143:3001/api/${url}`,
+      method,
+      headers,
+      data,
+    });
+    return response;
   }, []);
 
-  return { makeRequest };
+  return { doRequest };
 };
 
 export default useApi;

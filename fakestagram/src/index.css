@@ -1,68 +1,109 @@
 :root {
+  --background-color: #ffffff;
+  --on-background-color: #000000;
+  --color-primary: #5262ee;
+  --button-primary: #5262ee;
+  --button-disabled: #ccc;
+  --button-disabled-hover: #ccc;
+  --button-on-primary-disabled: #ffffff;
+  --button-hover: #3f4bd7;
+  --button-on-primary: #ffffff;
+  --button-secondary: #ffffff;
+  --button-on-secondary: #7a7a7a;
+  --button-secondary-hover: #f5f5f5;
+  --button-font-size: 15px;
+  --border-radius: 8px;
+  --border-color: #ccc;
+  --font-size: 13px;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: var(--font-size);
+  background-color: var(--background-color);
+  color: var(--on-background-color);
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+[data-theme="light"] {
+  --background-color: #ffffff;
+  --on-background-color: #000000;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+[data-theme="dark"] {
+  --background-color: #121212;
+  --on-background-color: #ffffff;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+button,
+input {
+  padding: 13px;
+  border-radius: var(--border-radius);
+  border: 0.7px solid var(--border-color);
+  font-size: var(--button-font-size);
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--button-primary);
+  color: var(--button-on-primary);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:hover {
+  background-color: var(--button-hover);
+}
+
+input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+button:disabled {
+  background-color: var(--button-disabled);
+  color: var(--button-on-primary-disabled);
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background-color: var(--button-disabled-hover);
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 20px 0;
+  width: 100%;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.separator span {
+  margin-bottom: -10px;
+  color: var(--border-color);
+  padding: 0 10px;
+  background-color: var(--background-color);
+}
+
+.formWrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 0.7px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  width: 80%;
+}
+.message{
+  text-align: center;
+  margin-top: 20px;
+}
+.message.success{
+  color: green;
+}
+.message.error{
+  color: red;
 }
