@@ -11,8 +11,10 @@ const UnAuthRoute = () => {
             if (user) {
                 navigator('/');
             }
-        }, 1000);
+        }, 10);
     }, [user, navigator]);
+
+    return <Outlet />;
 };
 
 export default UnAuthRoute;

@@ -11,7 +11,7 @@ const PrivateRoute = () => {
             if (!user) {
                 navigator('/login');
             }
-        }, 1000);
+        }, 10);
     }, [user, navigator]);
 
     return user ? <Outlet /> : null;
