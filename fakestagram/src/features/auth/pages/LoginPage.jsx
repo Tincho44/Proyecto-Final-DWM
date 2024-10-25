@@ -43,7 +43,7 @@ const LoginPage = () => {
     return (
         <BasePage>
                 <div className={`formWrapper ${authCSS.formAuthWrapper}`}>
-                    <img src="/ucugram.svg" alt="UCU Gram" />
+                    <img src="/ucugram.svg" alt="UCU Gram" className={authCSS.logo} />
                     <LoginForm
                         email={email}
                         setEmail={setEmail}

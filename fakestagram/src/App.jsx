@@ -9,8 +9,6 @@ import UnAuthRoute from './shared/navigation/UnAuthRoute';
 import WIPPage from './shared/pages/WIPPage';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <AuthProvider>
       <BrowserRouter>
