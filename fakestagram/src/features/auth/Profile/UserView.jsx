@@ -1,126 +1,121 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import useApi from "../hooks/useApi";
 
-function CambiarFoto(Usuario) {
-    const [selectedFile, setSelectedFile] = useState(null);
+function CambiarFoto({ usuario, onFotoUpdated }) {
+  const { doRequest } = useApi();
+  const [selectedFile, setSelectedFile] = useState(null);
 
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
-    const handleUpload = () => {
-        if (selectedFile) {
-            const formData = new FormData();
-            formData.append("fotoPerfil", selectedFile);
+  const handleUpload = async () => {
+    if (!selectedFile) return;
 
-            const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append("foto", selectedFile);
 
-            fetch(`/api/usuarios/${Usuario.id}/cambiarFoto`, {
-                method: "POST",
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Foto actualizada:", data);
-            })
-            .catch(error => {
-                console.error("Error al cambiar la foto:", error);
-            });
-        }
-    };
+    try {
+      const response = await doRequest(`users/${usuario.id}/foto`, "PUT", formData, true);
+      onFotoUpdated(response.data.fotoUrl); 
+      alert("Foto de perfil actualizada con éxito.");
+    } catch (error) {
+      console.error("Error uploading profile picture:", error);
+    }
+  };
 
-    return (
-        <div>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Subir nueva foto</button>
-        </div>
-    );
+  return (
+    <div>
+      <input type="file" onChange={handleFileChange} />
+      <button className="cambiarFoto" onClick={handleUpload}>Cambiar</button>
+    </div>
+  );
 }
 
-function CambiarDescripcion(Usuario) {
-    const [nuevaDescripcion, setNuevaDescripcion] = useState(Usuario.descripcion);
+function CambiarDescripcion({ usuario, onDescripcionUpdated }) {
+  const { doRequest } = useApi();
+  const [nuevaDescripcion, setNuevaDescripcion] = useState(usuario.descripcion);
 
-    const handleDescripcionChange = (event) => {
-        setNuevaDescripcion(event.target.value);
-    };
+  const handleTextChange = (event) => {
+    setNuevaDescripcion(event.target.value);
+  };
 
-    const handleSubmit = () => {
-        const token = localStorage.getItem('token');
+  const handleUpdate = async () => {
+    try {
+      await doRequest(`users/${usuario.id}/descripcion`, 'PUT', { descripcion: nuevaDescripcion }, true);
+      onDescripcionUpdated(nuevaDescripcion);
+      alert("Descripción actualizada con éxito.");
+    } catch (error) {
+      console.error("Error updating description:", error);
+    }
+  };
 
-        //Ahora mismo no tenemos claro la dir del back.
-
-        fetch(`/api/usuarios/${Usuario.id}/cambiarDescripcion`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({ descripcion: nuevaDescripcion }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Descripción actualizada:", data); 
-        })
-        .catch(error => {
-            console.error("Error al cambiar la descripción:", error);
-        });
-    };
-
-    return (
-        <div>
-            <textarea
-                value={nuevaDescripcion}
-                onChange={handleDescripcionChange}
-                placeholder="Escribe tu nueva descripción"
-            />
-            <button onClick={handleSubmit}>Guardar Descripción</button>
-        </div>
-    );
+  return (
+    <div>
+      <input type="text" value={nuevaDescripcion} onChange={handleTextChange} />
+      <button className="cambiarDescripcion" onClick={handleUpdate}>Cambiar</button>
+    </div>
+  );
 }
 
-function FotoPerfil({ Usuario }) {
-    return (
-        <div>
-            <img src={Usuario.fotoUrl} alt="Foto de perfil" />
-            <button className="cambiarFoto" onClick={() => CambiarFoto(Usuario)}>Cambiar</button>
-        </div>
-    );
+function FotoPerfil({ usuario, onFotoUpdated }) {
+  return (
+    <div>
+      <img src={usuario.fotoUrl} alt="Foto de perfil" />
+      <CambiarFoto usuario={usuario} onFotoUpdated={onFotoUpdated} />
+    </div>
+  );
 }
 
-function DatosUsuario({ Usuario }) {
-    return (
-        <div>
-            <h2>{Usuario.nombre}</h2>
-            <p>{Usuario.descripcion}</p>
-            <button className="cambiarDescripcion" onClick={() => CambiarDescripcion(Usuario)}>
-                Cambiar Descripción
-            </button>
-        </div>
-    );
-}
-function ListaPosteos(){
-
+function DatosUsuario({ usuario, onDescripcionUpdated }) {
+  return (
+    <div>
+      <h2>{usuario.nombre}</h2>
+      <p>{usuario.descripcion}</p>
+      <CambiarDescripcion usuario={usuario} onDescripcionUpdated={onDescripcionUpdated} />
+    </div>
+  );
 }
 
 function VistaUsuario({ IdUsuario }) {
-    const usuario = {
-        id: IdUsuario,
-        nombre: "Martin Cabral",
-        descripcion: "Desarrollador Frontend",
-        fotoUrl: "", 
-    };
+  const { doRequest } = useApi();
+  const [usuario, setUsuario] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    return (
-        <div className="container">
-            <div className="DatosUsuario">
-                <FotoPerfil Usuario={usuario} />
-                <DatosUsuario Usuario={usuario} />
-                <ListaPosteos />
-            </div>
-        </div>
-    );
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await doRequest(`profile/${IdUsuario}`, 'GET', null, true);
+        setUsuario(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, [IdUsuario, doRequest]);
+
+  const handleFotoUpdated = (newFotoUrl) => {
+    setUsuario((prevUsuario) => ({ ...prevUsuario, fotoUrl: newFotoUrl }));
+  };
+
+  const handleDescripcionUpdated = (newDescripcion) => {
+    setUsuario((prevUsuario) => ({ ...prevUsuario, descripcion: newDescripcion }));
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (!usuario) return <p>User not found</p>;
+
+  return (
+    <div className="container">
+      <div className="DatosUsuario">
+        <FotoPerfil usuario={usuario} onFotoUpdated={handleFotoUpdated} />
+        <DatosUsuario usuario={usuario} onDescripcionUpdated={handleDescripcionUpdated} />
+        <Posts />
+      </div>
+    </div>
+  );
 }
 
 export default VistaUsuario;
