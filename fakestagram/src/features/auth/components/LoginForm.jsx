@@ -2,31 +2,48 @@ import React from 'react';
 import css from '../styles/Auth.module.css';
 
 const LoginForm = ({
-  email,
-  setEmail,
-  password,
-  setPassword,
-  handleLogin,
+  register,
+  handleSubmit,
+  onSubmit,
+  errors,
+  isValid,
   navigate,
-  isFormChanged,
 }) => {
   return (
     <>
-      <form onSubmit={handleLogin} className={css.authForm}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className={css.authForm}>
+        <div className={css.formGroup}>
+          <input
+            type="email"
+            placeholder="Email"
+            {...register('email', {
+              required: 'El correo electrónico es obligatorio',
+              pattern: {
+                value: /^\S+@\S+$/i,
+                message: 'Correo electrónico inválido',
+              },
+            })}
+          />
+          {errors.email && <span className={css.error}>{errors.email.message}</span>}
+        </div>
+        <div className={css.formGroup}>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            {...register('password', {
+              required: 'La contraseña es obligatoria',
+              minLength: {
+                value: 3,
+                message: 'La contraseña debe tener al menos 3 caracteres',
+              },
+            })}
+          />
+          {errors.password && (
+            <span className={css.error}>{errors.password.message}</span>
+          )}
+        </div>
         <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
-        <button type="submit" disabled={!isFormChanged}>
+        <button type="submit" disabled={!isValid}>
           Iniciar Sesión
         </button>
       </form>

@@ -50,3 +50,12 @@
     width: 60%;
     margin-bottom: 20px;
 }
+
+.formGroup{
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup span {
+    color: var(--color-error);
+}

@@ -1,11 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
 import AuthService from '../services/AuthService';
+import { toast } from 'react-toastify';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [endMessage, setEndMessage] = useState(null);
-  const [endType, setEndType] = useState(null);
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
@@ -16,12 +15,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await authRegister(username, email, password);
       setUser(response.data);
-      setEndMessage("Usuario registrado con éxito, espere mientras es redirigido...");
-      setEndType("success");
       localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {
-      setEndType("error");
-      setEndMessage(JSON.parse(error.request.response).message);
+      toast.error(JSON.parse(error.request.response).message);
     }
   };
 
@@ -29,24 +25,19 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await authLogin(email, password);
       setUser(response.data);
-      setEndMessage(null);
-      setEndType("success");
       localStorage.setItem("user", JSON.stringify(response.data));
     } catch (error) {
-      setEndType("error");
-      setEndMessage(JSON.parse(error.request.response).message);
+      toast.error(JSON.parse(error.request.response).message);
     }
   };
 
   const logout = () => {
     setUser(null);
-    setEndMessage(null);
-    setEndType(null);
     localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, register, login, logout, endMessage, endType, setEndMessage, setEndType }}>
+    <AuthContext.Provider value={{ user, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

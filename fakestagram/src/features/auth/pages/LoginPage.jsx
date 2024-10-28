@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../../shared/context/AuthContext';
 import LoginForm from '../components/LoginForm';
 import authCSS from '../styles/Auth.module.css';
@@ -7,64 +8,41 @@ import BasePage from './BasePage';
 import AuthChip from '../components/AuthChip';
 
 const LoginPage = () => {
-    const { login, endMessage, endType, setEndMessage, setEndType, user } = useContext(AuthContext);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    const initialState = {
-        email: '',
-        password: '',
-    };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+  });
 
-    useEffect(() => {
-        if (endType === 'success') {
-            setEndMessage(null);
-            setEndType(null);
-            setTimeout(() => {
-                navigate('/');
-            }, 1000);
-        }
-    }, [endType, navigate]);
+  const onSubmit = (data) => {
+    login(data.email, data.password);
+  };
 
-    const isFormChanged = () => {
-        const hasChanged =
-            email !== initialState.email || password !== initialState.password;
-        const notEmpty = email.trim() !== '' && password.trim() !== '';
-        return hasChanged && notEmpty;
-    };
-
-
-    const handleLogin = (e) => {
-        e.preventDefault();
-        login(email, password);
-    };
-
-    return (
-        <BasePage>
-                <div className={`formWrapper ${authCSS.formAuthWrapper}`}>
-                    <img src="/ucugram.svg" alt="UCU Gram" className={authCSS.logo} />
-                    <LoginForm
-                        email={email}
-                        setEmail={setEmail}
-                        password={password}
-                        setPassword={setPassword}
-                        handleLogin={handleLogin}
-                        navigate={navigate}
-                        isFormChanged={isFormChanged()} />
-                    {endType && (
-                        <div className={`message ${endType}`}>
-                            {endMessage}
-                        </div>
-                    )}
-                </div>
-                <AuthChip
-                    title='¿No tenés cuenta?'
-                    action='Regístrate'
-                    redirect='/register'
-                />
-        </BasePage>
-    );
+  return (
+    <BasePage>
+      <div className={`formWrapper ${authCSS.formAuthWrapper}`}>
+        <img src="/ucugram.svg" alt="UCU Gram" className={authCSS.logo} />
+        <LoginForm
+          register={register}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          errors={errors}
+          isValid={isValid}
+          navigate={navigate}
+        />
+      </div>
+      <AuthChip
+        title="¿No tenés cuenta?"
+        action="Regístrate"
+        redirect="/register"
+      />
+    </BasePage>
+  );
 };
 
 export default LoginPage;
