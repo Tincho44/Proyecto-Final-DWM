@@ -1,130 +1,121 @@
 import React, { useEffect, useState } from "react";
 import useApi from "../hooks/useApi";
-import { AuthContext } from '../../../shared/context/AuthContext';
 
-function CambiarFoto({ usuario, onFotoUpdated }) {
+function CambiarFoto({ usuario }) {
     const { doRequest } = useApi();
     const [selectedFile, setSelectedFile] = useState(null);
-
+  
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+      setSelectedFile(event.target.files[0]);
     };
-
+  
     const handleUpload = async () => {
-        if (!selectedFile) return;
-
-        const formData = new FormData();
-        formData.append("foto", selectedFile);
-
-        try {
-            const response = await doRequest(`users/${usuario.id}/foto`, "PUT", formData, true);
-            onFotoUpdated(response.data.fotoUrl);
-            alert("Foto de perfil actualizada con éxito.");
-        } catch (error) {
-            console.error("Error uploading profile picture:", error);
-        }
+      if (!selectedFile) return;
+  
+      const formData = new FormData();
+      formData.append("foto", selectedFile); 
+  
+      try {
+        await doRequest(`users/${usuario.id}/foto`, "PUT", formData, true);
+        alert("Foto de perfil actualizada con éxito.");
+      } catch (error) {
+        console.error("Error uploading profile picture:", error);
+      }
     };
-
+  
     return (
-        <div>
-            <input type="file" onChange={handleFileChange} />
-            <button className="cambiarFoto" onClick={handleUpload}>Cambiar</button>
-        </div>
+      <div>
+        <img src={usuario.fotoUrl} alt="Foto de perfil" />
+        <input type="file" onChange={handleFileChange} />
+        <button className="cambiarFoto" onClick={handleUpload}>Cambiar</button>
+      </div>
     );
-}
+  }
+  
 
-function CambiarDescripcion({ usuario, onDescripcionUpdated }) {
-    const { doRequest } = useApi();
-    const [nuevaDescripcion, setNuevaDescripcion] = useState(usuario.descripcion);
-
+function CambiarDescripcion(userId, newDescripcion) {
+  const { doRequest } = useApi();
+  const [nuevaDescripcion, setDescripcion] = useState(null);
+  
     const handleTextChange = (event) => {
-        setNuevaDescripcion(event.target.value);
+      setDescripcion(event.target.files[0]);
     };
 
-    const handleUpdate = async () => {
-        try {
-            await doRequest(`users/${usuario.id}/descripcion`, 'PUT', { descripcion: nuevaDescripcion }, true);
-            onDescripcionUpdated(nuevaDescripcion);
-            alert("Descripción actualizada con éxito.");
-        } catch (error) {
-            console.error("Error updating description:", error);
-        }
-    };
-
-    return (
-        <div>
-            <input type="text" value={nuevaDescripcion} onChange={handleTextChange} />
-            <button className="cambiarDescripcion" onClick={handleUpdate}>Cambiar</button>
-        </div>
-    );
+  handleUpload = async () => {
+    try {
+      await doRequest(`users/${userId}/descripcion`, 'PUT', { descripcion: nuevaDescripcion }, true);
+    } catch (error) {
+      console.error("Error updating description:", error);
+    }
+  };
+  return (
+    <div>
+        <p>{usuario.descripcion}</p>
+        <input type="text" onChange={handleTextChange} />
+        <button className="cambiarDescripcion" onClick={handleUpload}>Cambiar</button>
+      </div>
+  )
 }
 
-function FotoPerfil({ usuario, onFotoUpdated }) {
-    return (
-        <div>
-            <img src={usuario.fotoUrl} alt="Foto de perfil" />
-            <CambiarFoto usuario={usuario} onFotoUpdated={onFotoUpdated} />
-        </div>
-    );
+function FotoPerfil({ usuario }) {
+  const cambiarFoto = CambiarFoto(usuario);
+  return (
+    <div>
+      <img src={usuario.fotoUrl} alt="Foto de perfil" />
+      <button className="cambiarFoto" onClick={cambiarFoto}>Cambiar</button>
+    </div>
+  );
 }
 
-function DatosUsuario({ usuario, onDescripcionUpdated }) {
-    return (
-        <div>
-            <h2>{usuario.nombre}</h2>
-            <p>{usuario.descripcion}</p>
-            <CambiarDescripcion usuario={usuario} onDescripcionUpdated={onDescripcionUpdated} />
-        </div>
-    );
+function DatosUsuario({ usuario }) {
+  const cambiarDescripcion = CambiarDescripcion(usuario);
+
+  return (
+    <div>
+      <h2>{usuario.nombre}</h2>
+      <p>{usuario.descripcion}</p>
+      <button className="cambiarDescripcion" onClick={cambiarDescripcion}>
+        Cambiar Descripción
+      </button>
+    </div>
+  );
 }
 
 function Posts() {
 
 }
 
-function VistaUsuario() {
-    const { user } = useContext(AuthContext);
+function VistaUsuario({ IdUsuario }) {
+    const { user: currentUser } = useContext(AuthContext);
     const { doRequest } = useApi();
     const [usuario, setUsuario] = useState(null);
-    const [loading, setLoading] = useState(true);
 
-    //Si el usuario soy yo la logica es sencilla, solo traerme del context mi user.
-    //Si el usuario es otra persona hay que ver como implementar el tocar el perfil y que cargue ese user. 
+    const isOwner = usuario && currentUser && usuario.id === currentUser.id;
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await doRequest(`profile/${IdUsuario}`, 'GET', null, true);
-                setUsuario(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                setLoading(false);
-            }
-        };
-        fetchUser();
-    }, [doRequest]);
 
-    const handleFotoUpdated = (newFotoUrl) => {
-        setUsuario((prevUsuario) => ({ ...prevUsuario, fotoUrl: newFotoUrl }));
-    };
-
-    const handleDescripcionUpdated = (newDescripcion) => {
-        setUsuario((prevUsuario) => ({ ...prevUsuario, descripcion: newDescripcion }));
-    };
-
-    if (loading) return <p>Loading...</p>;
-    if (!usuario) return <p>User not found</p>;
+    if(!isOwner){
+        useEffect(() => {
+            const fetchUser = async () => {
+                try {
+                    const response = await doRequest(`profile/${IdUsuario}`, 'GET', null, true);
+                    setUsuario(response.data);
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            };
+            fetchUser();
+        }, [IdUsuario, doRequest]); 
+    }
 
     return (
         <div className="container">
             <div className="DatosUsuario">
-                <FotoPerfil usuario={usuario} onFotoUpdated={handleFotoUpdated} />
-                <DatosUsuario usuario={usuario} onDescripcionUpdated={handleDescripcionUpdated} />
+                <FotoPerfil usuario={usuario}/>
+                <DatosUsuario usuario={usuario}/>
                 <Posts />
             </div>
         </div>
     );
 }
 
-export default VistaUsuario;
+export default VistaUsuario; 
