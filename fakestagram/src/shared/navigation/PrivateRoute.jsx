@@ -3,16 +3,14 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const PrivateRoute = () => {
-    let navigator = useNavigate();
+    const navigate = useNavigate();
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        setTimeout(() => {
-            if (!user) {
-                navigator('/login');
-            }
-        }, 10);
-    }, [user, navigator]);
+        if (!user) {
+            navigate('/login');
+        }
+    }, [user, navigate]);
 
     return user ? <Outlet /> : null;
 };

@@ -2,10 +2,13 @@ import { useCallback } from "react";
 import axios from "axios";
 
 const useApi = () => {
-  const doRequest = useCallback(async (url, method = 'GET', data = null, requiresToken = false) => {
+  const doRequest = useCallback(async (url, method = 'GET', data = null, requiresToken = false, contentType = 'application/json') => {
     let headers = {
-      "Content-Type": "application/json",
+      "Content-Type": contentType,
     };
+    if (contentType === 'multipart/form-data') {
+      headers = {};
+    }
     if (requiresToken) {
       const user = JSON.parse(localStorage.getItem('user'));
       const token = user?.token;

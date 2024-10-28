@@ -7,11 +7,9 @@ const UnAuthRoute = () => {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        setTimeout(() => {
-            if (user) {
-                navigator('/');
-            }
-        }, 10);
+        if (user) {
+            navigator('/');
+        }
     }, [user, navigator]);
 
     return <Outlet />;
