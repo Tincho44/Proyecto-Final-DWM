@@ -11,8 +11,7 @@ const PrivateRoute = () => {
             navigate('/login');
         }
     }, [user, navigate]);
-
-    return user ? <Outlet /> : null;
+    return user ? <Outlet/> : null;
 };
 
 export default PrivateRoute;
