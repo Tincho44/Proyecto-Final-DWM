@@ -7,17 +7,17 @@ function CambiarFoto({ usuario }) {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile(event.target.files[0]); 
   };
 
   const handleUpload = async () => {
     if (!selectedFile) return;
 
     const formData = new FormData();
-    formData.append("foto", selectedFile);
+    formData.append("profilePicture", selectedFile); 
 
     try {
-      await doRequest(`user/profile/edit`, "PUT", formData, true);
+      await doRequest(`user/profile/edit`, "PUT", formData, true, 'multipart/form-data'); // Make sure 'multipart/form-data' is set in headers
       alert("Foto de perfil actualizada con éxito.");
     } catch (error) {
       console.error("Error uploading profile picture:", error);
@@ -26,11 +26,12 @@ function CambiarFoto({ usuario }) {
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} />
+      <input type="file" onChange={handleFileChange} /> {/* Ensure it's type="file" */}
       <button className="cambiarFoto" onClick={handleUpload}>Cambiar</button>
     </div>
   );
 }
+
 
 function CambiarDescripcion({ userId }) {
   const { doRequest } = useApi();
@@ -61,7 +62,7 @@ function FotoPerfil({ usuario }) {
   return (
     <div className="FotoPerfil">
     <h1>{usuario.user.username}</h1>
-      <img src={usuario.profilePicture} alt="Foto de perfil" />
+      <img src={usuario.user.profilePicture} alt="Foto de perfil" />
       {usuario && usuario.user ? ( 
         <p>{usuario.user.username}</p>
       ) : (
@@ -100,10 +101,11 @@ function DatosUsuario({ usuario, myProfile }) {
   };
   
   return (
+    <div className="FotoPerfil">
     <div className="Datos">
       <div className="Friends">
-        <p className="InformacionBasica">Amigos: {usuario.user.friends.length}</p>
-        <p className="InformacionBasica">Posts: {usuario.posts.length}</p>
+        <p className="InformacionBasica">{usuario.user.friends.length}<br/>Amigos</p>
+        <p className="InformacionBasica">{usuario.posts.length}<br/>Posts</p>
       </div>
       
       {myProfile ? (
@@ -115,6 +117,7 @@ function DatosUsuario({ usuario, myProfile }) {
             <div className="modalOverlay">
               <div className="modalContent">
                 <button className="closeModal" onClick={toggleModal}>X</button>
+                <img src={usuario.user.profilePicture} alt="Foto de perfil" />
                 <CambiarFoto usuario={usuario} />
                 <CambiarDescripcion userId={usuario.user._id} />
               </div>
@@ -132,6 +135,7 @@ function DatosUsuario({ usuario, myProfile }) {
           </button>
         )
       )}
+    </div>
     </div>
   );
 }  
@@ -186,6 +190,8 @@ if(user._id === usuario.user._id){
   myProfile = true;
 }
 }
+
+console.log(usuario)
 return (
   loading ? (
     <div>Cargando...</div>

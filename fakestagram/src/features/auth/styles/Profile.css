@@ -4,64 +4,84 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro y semitransparente */
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     z-index: 1000;
-}
-
-.modalContent {
-    background-color: white;
+  }
+  
+  /* Estilos para el contenido del modal */
+  .modalContent {
+    background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    width: 80%;
+    max-width: 500px;
     text-align: center;
-    position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.closeModal {
-    background-color: #ff5c5c;
-    color: white;
+  }
+  
+  .closeModal {
+    background: none;
     border: none;
-    border-radius: 50%;
-    padding: 5px;
-    cursor: pointer;
+    font-size: 18px;
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 14px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    cursor: pointer;
+    color: #333;
+  }
+  
 
+
+/* Inputs estilizados */
 input[type="file"],
 input[type="text"] {
-    display: block;
-    margin: 15px auto;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 80%;
-    font-size: 14px;
-    color: #495057;
-    outline: none;
+  display: block;
+  margin: 15px auto;
+  padding: 10px;
+  border-radius: 5px;
+  border: none; /* Eliminamos el borde */
+  width: 80%;
+  font-size: 16px;
+  color: #495057;
+  background-color: #f1f3f5; /* Fondo claro */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interior */
+  transition: background-color 0.3s;
 }
 
+/* Efecto hover y focus para inputs */
+input[type="file"]:hover,
+input[type="text"]:hover,
 input[type="file"]:focus,
 input[type="text"]:focus {
-    border-color: #6c63ff;
-    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+  background-color: #e9ecef; /* Fondo ligeramente más oscuro al hacer hover o focus */
+  outline: none; /* Eliminamos el outline */
+}
+
+/* Botón de acción dentro del modal */
+button.editProfileButton,
+button.addFriendButton {
+  background-color:#6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Efecto hover para el botón */
+button.editProfileButton:hover,
+button.addFriendButton:hover {
+  background-color:#6c757d;
 }
 
 .cambiarFoto,
 .cambiarDescripcion {
-    background-color: #6c63ff;
+    background-color: gray;
     color: #fff;
     padding: 8px 16px;
     border: none;
@@ -72,10 +92,6 @@ input[type="text"]:focus {
     margin-top: 10px;
 }
 
-.cambiarFoto:hover,
-.cambiarDescripcion:hover {
-    background-color: #5753d6;
-}
 
 .container {
     max-width: 600px;
@@ -118,6 +134,14 @@ input[type="text"]:focus {
     border: 2px solid #ddd;
     margin-bottom: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editProfileButton{
+    background-color:#ccc   ;
+    width: 90vh;
+    position: relative;
+    top:50px;
+    right: 38vh;
 }
 
 .DatosUsuario h2 {
