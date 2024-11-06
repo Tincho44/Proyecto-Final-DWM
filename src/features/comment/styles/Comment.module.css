@@ -1,0 +1,22 @@
+.commentForm {
+    margin-bottom: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.commentList {
+    margin-top: 20px;
+}
+
+.commentItem {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+}
