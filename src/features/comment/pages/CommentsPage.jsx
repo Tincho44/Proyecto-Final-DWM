@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../../shared/context/AuthContext';
 import CommentForm from '../components/CommentForm';
 import CommentList from '../components/CommentList';
 import useCommentService from '../services/useCommentService';
-import { useForm } from 'react-hook-form';
-import { useContext } from 'react';
-import { AuthContext } from '../../../shared/context/AuthContext';
+import BasePage from './BasePage';
+import AuthChip from '../components/AuthChip';
 
 const CommentsPage = () => {
   const { postId } = useParams();
@@ -13,7 +14,11 @@ const CommentsPage = () => {
   const { token } = useContext(AuthContext);
   const [comments, setComments] = useState([]);
 
-  const { register, handleSubmit, formState: { errors, isValid } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
     mode: 'onChange',
   });
 
@@ -31,16 +36,20 @@ const CommentsPage = () => {
   };
 
   return (
-    <div>
-      <CommentForm 
-        register={register}
-        handleSubmit={handleSubmit}
-        onSubmit={onSubmit}
-        errors={errors}
-        isValid={isValid}
-      />
-      <CommentList comments={comments} />
-    </div>
+    <BasePage>
+      <div className="formWrapper">
+        <h2>Comentarios</h2>
+        <CommentForm
+          register={register}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          errors={errors}
+          isValid={isValid}
+        />
+        <CommentList comments={comments} />
+      </div>
+      <AuthChip title="¿Quieres agregar un comentario?" action="Escribe aquí" redirect="/add-comment" />
+    </BasePage>
   );
 };
 
