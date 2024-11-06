@@ -7,6 +7,7 @@ import FeedPage from 'features/feed/pages/FeedPage';
 import PrivateRoute from 'shared/navigation/PrivateRoute';
 import UnAuthRoute from 'shared/navigation/UnAuthRoute';
 import LayoutedRoute from 'shared/navigation/LayoutedRoute';
+import CommentsPage from 'features/comments/pages/CommentsPage';
 import WIPPage from 'shared/pages/WIPPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -23,6 +24,9 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route element={<LayoutedRoute />}>
                 <Route path="/" element={<FeedPage />} />
+              </Route>
+              <Route element={<LayoutedRoute />}>
+              <Route path="/comments" element={<CommentsPage />} />
               </Route>
             </Route>
             <Route path="*" element={<WIPPage />} />

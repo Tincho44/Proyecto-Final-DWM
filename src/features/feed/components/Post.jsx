@@ -1,10 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
 import postCSS from '../styles/Post.module.css';
-import { PostContext } from '../../../shared/context/PostContext';
-import { AuthContext } from '../../../shared/context/AuthContext';
+import { PostContext } from 'shared/context/PostContext';
+import { AuthContext } from 'shared/context/AuthContext';
+import CommentsPage from 'features/comments/pages/CommentsPage';
+
 
 function Post({ id, username, profilePicture, imageUrl, caption, comments, likes, createdAt }) {
   const [postLikeado, setPostLikeado] = useState(false);
+  const [isCommentsOpen, setCommentsOpen] = useState(false);
   const { hitlikePost, hitUnlikePost } = useContext(PostContext);
   const { user } = useContext(AuthContext);
 
@@ -43,6 +46,10 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
       hitlikePost(id); 
     }
     setPostLikeado(!postLikeado);
+  }
+
+  const _handleCommentButton = () => {
+    setCommentsOpen(true);
   }
 
   return (
@@ -104,7 +111,7 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
                 </svg>
               )}
             </button>
-            <button className={postCSS.postAction}>
+            <button className={postCSS.postAction} onClick={_handleCommentButton}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                 <g clipPath="url(#clip0_9_751)">
                   <path
