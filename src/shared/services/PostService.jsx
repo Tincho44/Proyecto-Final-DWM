@@ -27,7 +27,7 @@ const usePostService = () => {
   const unlikePost = async (postId) => {
     const formData = new FormData();
     formData.append("postId", postId);
-    const response = await doRequest(`posts/${postId}/unlike`, "POST", formData, true);
+    const response = await doRequest(`posts/${postId}/like`, "DELETE", formData, true);
     return response;
   };
 

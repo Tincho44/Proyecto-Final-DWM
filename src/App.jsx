@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AuthProvider } from 'shared/context/AuthContext';
 import { PostProvider } from 'shared/context/PostContext';
+import { UserProvider } from 'shared/context/UserContext';
 import LoginPage from 'features/auth/pages/LoginPage';
 import RegisterPage from 'features/auth/pages/RegisterPage';
 import FeedPage from 'features/feed/pages/FeedPage';
@@ -14,25 +15,27 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <AuthProvider>
-      <PostProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<UnAuthRoute />}>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-            </Route>
-            <Route element={<PrivateRoute />}>
-              <Route element={<LayoutedRoute />}>
-                <Route path="/" element={<FeedPage />} />
+      <UserProvider>
+        <PostProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<UnAuthRoute />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
               </Route>
-              <Route element={<LayoutedRoute />}>
-              <Route path="/comments" element={<CommentsPage />} />
+              <Route element={<PrivateRoute />}>
+                <Route element={<LayoutedRoute />}>
+                  <Route path="/" element={<FeedPage />} />
+                </Route>
+                <Route element={<LayoutedRoute />}>
+                  <Route path="/comments" element={<CommentsPage />} />
+                </Route>
               </Route>
-            </Route>
-            <Route path="*" element={<WIPPage />} />
-          </Routes>
-        </BrowserRouter>
-      </PostProvider>
+              <Route path="*" element={<WIPPage />} />
+            </Routes>
+          </BrowserRouter>
+        </PostProvider>
+      </UserProvider>
     </AuthProvider>
   );
 }

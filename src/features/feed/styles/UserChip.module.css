@@ -1,0 +1,38 @@
+.userChip {
+    border: 1px solid #DBDBDB;
+    border-radius: 8px;
+    padding: 20px;
+    width: 176px;
+    height: 198px;
+    text-align: center;
+    display: block;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profilePicture{
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+/* .button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.user-button:hover {
+    background-color: #0056b3;
+} */

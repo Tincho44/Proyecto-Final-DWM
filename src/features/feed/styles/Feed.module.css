@@ -2,8 +2,6 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 100%;
-    max-width: 500px;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -11,4 +9,15 @@
 
 .feedWrapper{
     margin: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 50%;
+    max-width: 500px;
+}
+
+.friendsChips{
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
 }
