@@ -17,7 +17,7 @@
   --separator-color: #7a7a7a;
   --font-size: 13px;
   --color-error: #ff0000;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto", serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -27,6 +27,10 @@
   font-size: var(--font-size);
   background-color: var(--background-color);
   color: var(--on-background-color);
+}
+
+body {
+  margin: 0;
 }
 
 [data-theme="light"] {
@@ -80,6 +84,10 @@ button:disabled:hover {
   margin: 20px 0;
   width: 100%;
   border-bottom: 1px solid var(--separator-color);
+}
+
+.postSeparator{
+  border-color: #DBDBDB !important;
 }
 
 .separator span {
@@ -137,6 +145,7 @@ button:disabled:hover {
   max-width: 400px;
 }
 
+/* Media query para desktop */
 @media (min-width: 1024px) {
   .telefonos {
     display: block;
@@ -149,14 +158,23 @@ button:disabled:hover {
     width: 30% !important;
   }
 
+  .ucugramApp{
+    flex-direction: row-reverse !important;
+  }
+
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
+/* Media query para tablet */
+@media (min-width: 768px){
   .wip-page .logo{
     width: 30% !important;
   }
   .wip-page img{
     width: 50% !important;
+  }
+
+  .ucugramApp{
+    flex-direction: row-reverse !important;
   }
 }
 
@@ -187,4 +205,40 @@ button:disabled:hover {
 .wip-page p {
   font-size: 15px;
   text-align: center;
+}
+
+.ucugramApp{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+
+.ucugramContent{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow-y: auto;
+  align-items: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  width: 90%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 8px;
 }
