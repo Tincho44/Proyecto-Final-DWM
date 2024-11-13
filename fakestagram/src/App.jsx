@@ -25,7 +25,7 @@ function App() {
             <Route path="/login/weba" element={<WIPPage />} />
             <Route path="/login/autogestion" element={<WIPPage />} />
           </Route>
-          <Route path="/profile/user" element={<VistaUsuario idUsuario="6719a9a0d3970a94da53e986" />} />
+          <Route path="/profile/user/:idUsuario" element={<VistaUsuario/>} />
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<FeedPage />} />
           </Route>

@@ -1,28 +1,32 @@
 import React, { useEffect, useState, useContext } from "react";
 import useApi from "../../../shared/hooks/useApi";
 import '../styles/Profile.css';
+import { useParams } from "react-router-dom";
+import { AuthContext } from "../../../shared/context/AuthContext";
 
-function CambiarFoto({ usuario }) {
+function CambiarFoto({ usuario, fetchUser }) {
   const { doRequest } = useApi();
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]); 
+    setSelectedFile(event.target.files[0]);
   };
 
   const handleUpload = async () => {
     if (!selectedFile) return;
 
     const formData = new FormData();
-    formData.append("profilePicture", selectedFile); 
+    formData.append("profilePicture", selectedFile);
 
     try {
-      await doRequest(`user/profile/edit`, "PUT", formData, true, 'multipart/form-data'); // Make sure 'multipart/form-data' is set in headers
+      await doRequest(`user/profile/edit`, "PUT", formData, true);
       alert("Foto de perfil actualizada con éxito.");
+      fetchUser(); // Actualiza el perfil después del cambio de foto
     } catch (error) {
       console.error("Error uploading profile picture:", error);
     }
   };
+  
 
   return (
     <div>
@@ -33,7 +37,7 @@ function CambiarFoto({ usuario }) {
 }
 
 
-function CambiarDescripcion({ userId }) {
+function CambiarDescripcion({ userId, fetchUser }) {
   const { doRequest } = useApi();
   const [nuevaDescripcion, setDescripcion] = useState("");
 
@@ -43,8 +47,9 @@ function CambiarDescripcion({ userId }) {
 
   const handleUpload = async () => {
     try {
-      await doRequest(`user/profile/edit`, 'PUT', { descripcion: nuevaDescripcion }, true);
+      await doRequest(`user/profile/edit`, 'PUT', { description: nuevaDescripcion }, true);
       alert("Descripción actualizada con éxito.");
+      fetchUser(); // Actualiza el perfil después del cambio de descripción
     } catch (error) {
       console.error("Error updating description:", error);
     }
@@ -59,22 +64,22 @@ function CambiarDescripcion({ userId }) {
 }
 
 function FotoPerfil({ usuario }) {
+  console.log(usuario)
   return (
     <div className="FotoPerfil">
-    <h1>{usuario.user.username}</h1>
+    <h1 className="Username">{usuario.user.username}</h1>
       <img src={usuario.user.profilePicture} alt="Foto de perfil" />
       {usuario && usuario.user ? ( 
-        <p>{usuario.user.username}</p>
+        <p className="DescUser">{usuario.user.username}</p>
       ) : (
         <h2>Cargando...</h2> 
       )}
-      <p>No tiene description el back</p>
+      <p className="DescUser">{usuario.user.description}</p>
     </div>
   );
 }
 
-//Aca tengo que chequear si el usuario soy yo mismo
-function DatosUsuario({ usuario, myProfile }) {
+function DatosUsuario({ usuario, myProfile, isFriend, setFriendStatus, fetchUser }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { doRequest } = useApi();
 
@@ -84,62 +89,61 @@ function DatosUsuario({ usuario, myProfile }) {
 
   const handleAddFriend = async () => {
     try {
-      await doRequest(`/add-friend/${usuario._id}`, "POST", null, true);
-      alert("Solicitud de amistad enviada.");
+      await doRequest(`user/add-friend/${usuario.user._id}`, "POST", null, true);
+      setFriendStatus(true);
+      fetchUser(); // Actualiza el perfil después de añadir amigo
     } catch (error) {
       console.error("Error al añadir amigo:", error);
     }
   };
-  
+
   const handleRemoveFriend = async () => {
     try {
-      await doRequest(`/remove-friend/${usuario._id}`, "DELETE", null, true);
-      alert("Amigo eliminado correctamente.");
+      await doRequest(`user/remove-friend/${usuario.user._id}`, "DELETE", null, true);
+      setFriendStatus(false);
+      fetchUser(); // Actualiza el perfil después de eliminar amigo
     } catch (error) {
       console.error("Error al eliminar amigo:", error);
     }
   };
   
   return (
-    <div className="FotoPerfil">
-    <div className="Datos">
-      <div className="Friends">
-        <p className="InformacionBasica">{usuario.user.friends.length}<br/>Amigos</p>
-        <p className="InformacionBasica">{usuario.posts.length}<br/>Posts</p>
-      </div>
-      
-      {myProfile ? (
-        <>
-          <button className="editProfileButton" onClick={toggleModal}>
-            Editar perfil
-          </button>
-          {isModalOpen && (
-            <div className="modalOverlay">
-              <div className="modalContent">
-                <button className="closeModal" onClick={toggleModal}>X</button>
-                <img src={usuario.user.profilePicture} alt="Foto de perfil" />
-                <CambiarFoto usuario={usuario} />
-                <CambiarDescripcion userId={usuario.user._id} />
+      <div className="Datos">
+        <div className="Friends">
+          <p className="InformacionBasica">{usuario.user.friends.length}<br />Amigos</p>
+          <p className="InformacionBasica">{usuario.posts.length}<br />Posts</p>
+        </div>
+        
+        {myProfile && usuario ? (
+          <>
+            <button className="editProfileButton" onClick={toggleModal}>
+              Editar perfil
+            </button>
+            {isModalOpen && (
+              <div className="modalOverlay">
+                <div className="modalContent">
+                  <button className="closeModal" onClick={toggleModal}>X</button>
+                  <img src={usuario.user.profilePicture} alt="Foto de perfil" />
+                  <CambiarFoto usuario={usuario} />
+                  <CambiarDescripcion userId={usuario.user._id} />
+                </div>
               </div>
-            </div>
-          )}
-        </>
-      ) : (
-        usuario.user.friends.includes(usuario._id) ? (
-          <button className="removeFriendButton" onClick={handleRemoveFriend}>
-            Eliminar amigo
-          </button>
+            )}
+          </>
         ) : (
-          <button className="addFriendButton" onClick={handleAddFriend}>
-            Añadir como amigo
-          </button>
-        )
-      )}
-    </div>
-    </div>
+          isFriend ? (
+            <button className="removeFriendButton" onClick={handleRemoveFriend}>
+              Eliminar amigo
+            </button>
+          ) : (
+            <button className="addFriendButton" onClick={handleAddFriend}>
+              Añadir como amigo
+            </button>
+          )
+        )}
+      </div>
   );
 }  
-
 
 function Posts({ usuario }) {
   if (!usuario || !usuario.posts || usuario.posts.length === 0) {
@@ -149,61 +153,69 @@ function Posts({ usuario }) {
       </div>
     );
   }
-  //Añadir onClick
+
   return (
-    <div className="Posts"> 
+    <div className="Posts">
       {usuario.posts.map(post => (
         <div key={post._id} className="Post">
-          <img src={post.imageUrl} />
+          <img src={`http://64.23.228.143:3001/${post.imageUrl}`} alt="Post Image" />
         </div>
       ))}
     </div>
   );
 }
 
-
-function VistaUsuario({ idUsuario }) {
+function VistaUsuario() {
   const { doRequest } = useApi();
-  const [usuario, setUsuario] = useState({ user: { username: '', profilePicture: '' }, _id: '', posts: null });
-
-
+  const { idUsuario } = useParams();
+  const { user: miId } = useContext(AuthContext);
+  const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFriend, setFriendStatus] = useState(false);
 
-useEffect(() => {
   const fetchUser = async () => {
+    setLoading(true);
     try {
-      const response = await doRequest(`user/profile/${idUsuario}`, 'GET', null, true);
-      setUsuario(response.data);
+      const response = await doRequest(`user/profile/${idUsuario}`, "GET", null, true);
+      const usuarioNuevo = response.data;
+      setUsuario(usuarioNuevo);
+      setFriendStatus(usuarioNuevo.user.friends.some(friend => friend._id === miId._id));
     } catch (error) {
       console.error("Error fetching user data:", error);
     } finally {
       setLoading(false);
     }
   };
-  fetchUser();
-}, [idUsuario, doRequest]);
 
-const user = JSON.parse(localStorage.getItem('user'));
-let myProfile = false;
-{usuario && usuario.user
-if(user._id === usuario.user._id){
-  myProfile = true;
-}
-}
+  useEffect(() => {
+    fetchUser();
+  }, [idUsuario]);
 
-console.log(usuario)
-return (
-  loading ? (
-    <div>Cargando...</div>
-  ) : (
-    <div className="container">
-      <div className="DatosUsuario">
-        <FotoPerfil usuario={usuario} />
-        <DatosUsuario usuario={usuario} myProfile={myProfile}/>
+  const user = JSON.parse(localStorage.getItem("user"));
+  const myProfile = user && usuario && user._id === usuario.user._id;
+
+  return (
+    loading ? (
+      <div>Cargando...</div>
+    ) : (
+      <div className="container">
+        <div className="DatosUsuario">
+          <FotoPerfil usuario={usuario} />
+          <DatosUsuario
+            usuario={usuario}
+            myProfile={myProfile}
+            isFriend={isFriend}
+            setFriendStatus={setFriendStatus}
+            fetchUser={fetchUser} // Pasamos fetchUser como prop
+          />
+        </div>
+        <Posts usuario={usuario} />
       </div>
-      <Posts usuario={usuario} />
-    </div>
-  )
-);
+    )
+  );
 }
+
+
+
 export default VistaUsuario;
+

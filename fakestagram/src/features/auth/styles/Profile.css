@@ -104,26 +104,38 @@ button.addFriendButton:hover {
 .DatosUsuario {
     display: flex;
     flex-direction: row;
-    gap: 200px;
     text-align: center;
     margin-bottom: 20px;
+    justify-content: space-around;
 }
 
 .Friends {
     display: flex;
-    flex-direction: row;
-    gap: 30px;
-    align-items: center;
+    flex-direction: row !important;
+    align-self: center;
+    gap:10px
 }
 
 .InformacionBasica {
-    font-size: 16px;
-    color: #212529;
-    margin: 0;
-    padding: 70px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin: 0;
+  padding: 70px 0;
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: bolder;
+}
+.DescUser{
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: bolder;
+}
+.Username{
+  font-family: monospace;
+  font-size: 25px;
+  font-weight: bolder;
+}
+.FotoPerfil{
+  display: flex;
+  flex-direction: column;
 }
 
 .FotoPerfil img {
@@ -135,13 +147,15 @@ button.addFriendButton:hover {
     margin-bottom: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.Datos{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap:10px
+}
 
 .editProfileButton{
-    background-color:#ccc   ;
-    width: 90vh;
-    position: relative;
-    top:50px;
-    right: 38vh;
+    background-color:#ccc   ; 
 }
 
 .DatosUsuario h2 {
