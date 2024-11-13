@@ -1,0 +1,121 @@
+.post {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.postImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.postHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 5px;
+}
+
+.postHeader h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px;
+}
+
+.postOptions {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+.postOptions:hover {
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profilePicture {
+    width: 34px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.miniProfilePicture {
+    width: 20px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.postFooter {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.postFooterRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.postActions {
+    display: flex;
+    gap: 10px;
+}
+
+.postAction {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+.postAction:hover {
+    background-color: transparent;
+}
+
+.postTime {
+    font-size: 13px;
+    color: #8E8E8E;
+    display: flex;
+    align-items: center;
+    margin: 0px;
+}
+
+.postLikes{
+    margin: 0px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.postLikes p {
+    margin: 0px;
+}
+
+.postCaption {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.postCaption p{
+    margin: 0px;
+}
+
+.postCaption span {
+    font-size: 15px;
+    font-weight: 500;
+}
