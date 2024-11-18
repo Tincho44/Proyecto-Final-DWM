@@ -1,0 +1,202 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro y semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Estilos para el contenido del modal */
+  .modalContent {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+  }
+  
+  .closeModal {
+    background: none;
+    border: none;
+    font-size: 18px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+
+
+/* Inputs estilizados */
+input[type="file"],
+input[type="text"] {
+  display: block;
+  margin: 15px auto;
+  padding: 10px;
+  border-radius: 5px;
+  border: none; /* Eliminamos el borde */
+  width: 80%;
+  font-size: 16px;
+  color: #495057;
+  background-color: #f1f3f5; /* Fondo claro */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interior */
+  transition: background-color 0.3s;
+}
+
+/* Efecto hover y focus para inputs */
+input[type="file"]:hover,
+input[type="text"]:hover,
+input[type="file"]:focus,
+input[type="text"]:focus {
+  background-color: #e9ecef; /* Fondo ligeramente más oscuro al hacer hover o focus */
+  outline: none; /* Eliminamos el outline */
+}
+
+/* Botón de acción dentro del modal */
+button.editProfileButton,
+button.addFriendButton {
+  background-color:#6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Efecto hover para el botón */
+button.editProfileButton:hover,
+button.addFriendButton:hover {
+  background-color:#6c757d;
+}
+
+.cambiarFoto,
+.cambiarDescripcion {
+    background-color: gray;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #212529;
+}
+
+.DatosUsuario {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-bottom: 20px;
+    justify-content: space-around;
+}
+
+.Friends {
+    display: flex;
+    flex-direction: row !important;
+    align-self: center;
+    gap:10px
+}
+
+.InformacionBasica {
+  margin: 0;
+  padding: 70px 0;
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: bolder;
+}
+.DescUser{
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: bolder;
+}
+.Username{
+  font-family: monospace;
+  font-size: 25px;
+  font-weight: bolder;
+}
+.FotoPerfil{
+  display: flex;
+  flex-direction: column;
+}
+
+.FotoPerfil img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.Datos{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap:10px
+}
+
+.editProfileButton{
+    background-color:#ccc   ; 
+}
+
+.DatosUsuario h2 {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #343a40;
+}
+
+.DatosUsuario h3 {
+    font-size: 18px;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.Posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 70px;
+}
+
+.Posts div {
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.Posts div:hover {
+    transform: scale(1.05);
+}
+
+.Posts div img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
