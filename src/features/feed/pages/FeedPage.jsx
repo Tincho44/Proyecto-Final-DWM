@@ -8,7 +8,7 @@ import feedCSS from '../styles/Feed.module.css';
 
 const FeedPage = () => {
   const { posts, loading, fetchPosts } = useContext(PostContext);
-  const { getFriends, friends, currentUser, loading: loadingFriends } = useContext(UserContext);
+  const { getFriends, friends, loading: loadingFriends } = useContext(UserContext);
 
   useEffect(() => {
     fetchPosts();
@@ -17,11 +17,13 @@ const FeedPage = () => {
 
   return (
     <div className={feedCSS.feedWrapper}>
+      <p className={feedCSS.friendsChipsText}>Mira el perfil de tus amigos</p>
       <div className={feedCSS.friendsChips}>
         { !loadingFriends && friends.map((friend) => (
-          <UserChip key={friend._id} user={friend} currentUser={currentUser} />
+          <UserChip key={friend._id} user={friend} />
         ))}
       </div>
+      <div className="separator postSeparator" />
       <div className={feedCSS.postList}>
         { loading && Array.from({ length: 5 }).map((_, i) => (
           <PostSkeleton key={i} />

@@ -9,8 +9,15 @@ const useUserService = () => {
     return response;
   };
 
+  const addFriend = async (friendId) => {
+    const response = await doRequest("user/add-friend/" + friendId, "POST", null, true);
+    return response;
+  }
 
-  return { getAllUsers };
+  const removeFriend = async (friendId) => {
+    const response = await doRequest("user/remove-friend/" + friendId, "DELETE", null, true);
+    return response;
+  }
 
   const getUserProfile = async (userId) => {
     const response = await doRequest(
@@ -32,7 +39,7 @@ const useUserService = () => {
     return response;
   };
 
-  return { getUserProfile, editUserProfile };
+  return { getUserProfile, editUserProfile, getAllUsers, addFriend, removeFriend };
 };
 
 export default useUserService;

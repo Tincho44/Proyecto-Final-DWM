@@ -5,10 +5,12 @@
     width: 176px;
     height: 198px;
     text-align: center;
-    display: block;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 .profilePicture{
@@ -16,7 +18,15 @@
     height: 54px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 20px;
+}
+
+.stopFollowing{
+    background-color: #c9c9c9;
+    color: rgb(255, 255, 255);
+}
+
+.stopFollowing:hover{
+    background-color: #b9b9b9;
 }
 
 /* .button-container {

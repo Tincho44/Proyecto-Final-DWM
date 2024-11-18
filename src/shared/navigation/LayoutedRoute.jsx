@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import TopBar from '../components/TopBar';
 import CommentsPage from 'features/comments/pages/CommentsPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LayoutedRoute = () => {
     const [isCommentsOpen, setCommentsOpen] = useState(false);
@@ -19,6 +21,7 @@ const LayoutedRoute = () => {
     };
   
     return <div className="ucugramApp">
+        <ToastContainer />
         <CommentsPage
             postId={currentPostId}
             isOpen={isCommentsOpen}
