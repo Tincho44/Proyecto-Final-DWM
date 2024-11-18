@@ -6,17 +6,18 @@ import { AuthContext } from "../../../shared/context/AuthContext";
 
 function CambiarFoto({ usuario, fetchUser }) {
   const { doRequest } = useApi();
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedURL, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+    setSelectedFile(event.target);
+    console.log(event.target)
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) return;
+    if (!selectedURL) return;
 
     const formData = new FormData();
-    formData.append("profilePicture", selectedFile);
+    formData.append("profilePicture", selectedURL);
 
     try {
       await doRequest(`user/profile/edit`, "PUT", formData, true);
@@ -30,7 +31,7 @@ function CambiarFoto({ usuario, fetchUser }) {
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} /> {/* Ensure it's type="file" */}
+      <input type="text" onChange={handleFileChange} /> 
       <button className="cambiarFoto" onClick={handleUpload}>Cambiar</button>
     </div>
   );
@@ -91,7 +92,7 @@ function DatosUsuario({ usuario, myProfile, isFriend, setFriendStatus, fetchUser
     try {
       await doRequest(`user/add-friend/${usuario.user._id}`, "POST", null, true);
       setFriendStatus(true);
-      fetchUser(); // Actualiza el perfil después de añadir amigo
+      fetchUser(); 
     } catch (error) {
       console.error("Error al añadir amigo:", error);
     }
@@ -123,7 +124,6 @@ function DatosUsuario({ usuario, myProfile, isFriend, setFriendStatus, fetchUser
               <div className="modalOverlay">
                 <div className="modalContent">
                   <button className="closeModal" onClick={toggleModal}>X</button>
-                  <img src={usuario.user.profilePicture} alt="Foto de perfil" />
                   <CambiarFoto usuario={usuario} />
                   <CambiarDescripcion userId={usuario.user._id} />
                 </div>
