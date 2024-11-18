@@ -33,7 +33,7 @@ export const PostProvider = ({ children }) => {
 
   const hitlikePost = async (postId) => {
     try {
-      const postResp = likePost(postId);
+      const postResp = await likePost(postId);
       const newPosts = posts.map(post => {
         if (post._id === postId) {
           post.likes.push(user._id);
@@ -48,7 +48,7 @@ export const PostProvider = ({ children }) => {
 
   const hitUnlikePost = async (postId) => {
     try {
-      const postResp = unlikePost(postId);
+      const postResp = await unlikePost(postId);
       const newPosts = posts.map(post => {
         if (post._id === postId) {
           post.likes = post.likes.filter(like => like !== user._id);
