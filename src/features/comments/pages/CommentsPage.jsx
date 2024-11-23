@@ -47,7 +47,6 @@ const CommentsPage = ({ postId, isOpen, onClose }) => {
             ))
           )}
         </div>
-        <button onClick={onClose}>Cerrar</button>
       </div>
     </Modal>
   );

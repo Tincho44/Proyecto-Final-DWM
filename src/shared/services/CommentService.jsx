@@ -28,12 +28,18 @@ const useCommentService = () => {
       `posts/comments/${commentId}`,
       "GET",
       null,
-      false 
+      true 
     );
     return response;
   };
 
+  
+
   return { createComment, deleteComment, getComment };
+
+  
+  
 };
+
 
 export default useCommentService;
