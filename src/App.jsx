@@ -13,6 +13,7 @@ import WIPPage from 'shared/pages/WIPPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
+  
   return (
     <AuthProvider>
       <UserProvider>

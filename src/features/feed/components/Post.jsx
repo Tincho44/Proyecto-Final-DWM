@@ -3,6 +3,7 @@ import postCSS from '../styles/Post.module.css';
 import { PostContext } from 'shared/context/PostContext';
 import { AuthContext } from 'shared/context/AuthContext';
 import CommentsPage from 'features/comments/pages/CommentsPage';
+import CommentsModal from '../../comments/components/CommentsModal';
 
 
 function Post({ id, username, profilePicture, imageUrl, caption, comments, likes, createdAt }) {
@@ -51,6 +52,9 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
   const _handleCommentButton = () => {
     setCommentsOpen(true);
   }
+  const handleCloseComments = () => {
+    setCommentsOpen(false);
+  };
 
   return (
     <div className={postCSS.post}>
@@ -128,6 +132,9 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
                 </defs>
               </svg>
             </button>
+            {isCommentsOpen && (
+              <CommentsPage postId={id} isOpen={isCommentsOpen} onClose={handleCloseComments} />
+            )}
             <button className={postCSS.postAction}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
                 <g clipPath="url(#clip0_9_754)">
