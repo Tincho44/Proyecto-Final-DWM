@@ -4,15 +4,14 @@ import useCommentService from 'shared/services/CommentService';
 import PropTypes from 'prop-types'; 
 
 const CommentsPage = ({ postId, isOpen, onClose }) => {
-  // Aquí puedes cargar los comentarios basados en el postId
-  // const comments = fetchComments(postId);
+  
 
   const { getComment, deleteComment } = useCommentService();
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchComments = async () => {
-      const fetchedComments = await getComment(postId); // Aquí se asume que getComment devuelve los comentarios de un post
+      const fetchedComments = await getComment(postId); 
       setComments(fetchedComments);
     };
 
@@ -33,7 +32,6 @@ const CommentsPage = ({ postId, isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <div>
         <h2>Comentarios del Post {postId}</h2>
-        {/* Renderiza los comentarios aquí */}
         <div>
           {comments.length === 0 ? (
             <p>No hay comentarios aún.</p>
@@ -54,7 +52,7 @@ const CommentsPage = ({ postId, isOpen, onClose }) => {
 
 // Validación de props
 CommentsPage.propTypes = {
-  postId: PropTypes.string.isRequired,  // O el tipo adecuado, según el tipo de postId
+  postId: PropTypes.string.isRequired,  
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
