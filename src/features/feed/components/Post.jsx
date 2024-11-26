@@ -6,7 +6,7 @@ import CommentsPage from 'features/comments/pages/CommentsPage';
 import CommentsModal from '../../comments/components/CommentsModal';
 
 
-function Post({ id, username, profilePicture, imageUrl, caption, comments, likes, createdAt }) {
+function Post({ post }) {
   const [postLikeado, setPostLikeado] = useState(false);
   const [isCommentsOpen, setCommentsOpen] = useState(false);
   const { hitlikePost, hitUnlikePost } = useContext(PostContext);
@@ -36,9 +36,9 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
   }
 
   useEffect(() => {
-    const liked = likes.includes(user._id);
+    const liked = post.likes.includes(user._id);
     setPostLikeado(!!liked);
-  }, [likes, user._id]);
+  }, [post.likes, user._id]);
 
   const _handleLikeButton = () => {
     if (postLikeado) {
@@ -56,12 +56,13 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
     setCommentsOpen(false);
   };
 
+
   return (
     <div className={postCSS.post}>
       <div className={postCSS.postHeader}>
         <div className={postCSS.userInfo}>
-          <img src={profilePicture} alt={username} className={postCSS.profilePicture} />
-          <h3>{username}</h3>
+          <img src={post.profilePicture} alt={post.username} className={postCSS.profilePicture} />
+          <h3>{post.username}</h3>
           <div className={postCSS.postTime}>
             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 25 25" fill="#C9C9C9FF">
               <g clipPath="url(#clip0_9_745)">
@@ -74,7 +75,7 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
                 />
               </g>
             </svg>
-            <span>{tiempoFormateado(createdAt)}</span>
+            <span>{tiempoFormateado(post.createdAt)}</span>
           </div>
         </div>
         <button className={postCSS.postOptions}>
@@ -83,7 +84,7 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
           </svg>
         </button>
       </div>
-      <img src={imageUrl} alt={caption} className={postCSS.postImage} onDoubleClick={_handleLikeButton} />
+      <img src={post.imageUrl} alt={post.caption} className={postCSS.postImage} onDoubleClick={_handleLikeButton} />
       <div className={postCSS.postFooter}>
         <div className={postCSS.postFooterRow}>
           <div className={postCSS.postActions}>
@@ -133,7 +134,7 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
               </svg>
             </button>
             {isCommentsOpen && (
-              <CommentsPage postId={id} isOpen={isCommentsOpen} onClose={handleCloseComments} />
+              <CommentsPage post={post} isOpen={isCommentsOpen} onClose={handleCloseComments} />
             )}
             <button className={postCSS.postAction}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
@@ -178,9 +179,9 @@ function Post({ id, username, profilePicture, imageUrl, caption, comments, likes
             </svg>
           </button>
         </div>
-        <p className={postCSS.postLikes}>{postLikeado ? <img src={profilePicture} alt={username} className={postCSS.miniProfilePicture} /> : ''}{likes.length} likes</p>
+        <p className={postCSS.postLikes}>{postLikeado ? <img src={post.profilePicture} alt={post.username} className={postCSS.miniProfilePicture} /> : ''}{post.likes.length} likes</p>
         <div className={postCSS.postCaption}>
-          <p><span>{username}</span> {caption}</p>
+          <p><span>{post.username}</span> {post.caption}</p>
         </div>
       </div>
     </div>

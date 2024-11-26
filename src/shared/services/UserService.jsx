@@ -10,14 +10,14 @@ const useUserService = () => {
   };
 
 
-  return { getAllUsers };
+
 
   const getUserProfile = async (userId) => {
     const response = await doRequest(
       `user/profile/${userId}`,
       "GET",
       null,
-      false 
+      true
     );
     return response;
   };
@@ -32,7 +32,7 @@ const useUserService = () => {
     return response;
   };
 
-  return { getUserProfile, editUserProfile };
+  return { getUserProfile, editUserProfile, getAllUsers };
 };
 
 export default useUserService;

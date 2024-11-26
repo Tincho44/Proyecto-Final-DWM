@@ -29,13 +29,7 @@ const FeedPage = () => {
         { !loading && posts.map((post) => (
           <div key={post._id}>
             <Post
-              id={post._id}
-              imageUrl={post.imageUrl}
-              profilePicture={post.user.profilePicture}
-              username={post.user.username}
-              caption={post.caption}
-              createdAt={post.createdAt}
-              likes={post.likes} />
+              post={post} />
             <div className="separator postSeparator" />
           </div>
         ))}
