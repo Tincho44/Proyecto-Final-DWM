@@ -17,9 +17,9 @@ export const PostProvider = ({ children }) => {
       const response = await getFeed();
       response.data.forEach(post => {
         post.imageUrl = `http://64.23.228.143:3001/${post.imageUrl}`;
-        if(post.user.profilePicture){
+        if (post.user.profilePicture) {
           post.user.profilePicture = `http://64.23.228.143:3001/${post.user.profilePicture}`;
-        }else{
+        } else {
           post.user.profilePicture = "http://64.23.228.143:3001/uploads/default-profile.jpg";
         }
       });

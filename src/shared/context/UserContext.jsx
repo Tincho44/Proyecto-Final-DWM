@@ -18,10 +18,10 @@ export const UserProvider = ({ children }) => {
       const response = await getAllUsers();
       let userAct;
       response.data.forEach(user => {
-        if(!user.profilePicture){
+        if (!user.profilePicture) {
           user.profilePicture = "http://64.23.228.143:3001/uploads/default-profile.jpg";
         }
-        if(user._id === authUser._id){
+        if (user._id === authUser._id) {
           userAct = user;
         }
       });
