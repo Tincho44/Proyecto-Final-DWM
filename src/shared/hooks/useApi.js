@@ -17,12 +17,17 @@ const useApi = () => {
       }
     }
 
-    const response = await axios({
+    let payload = {
       url: `http://64.23.228.143:3001/api/${url}`,
       method,
       headers,
-      data,
-    });
+    }
+
+    if (data) {
+      payload.data = data
+    }
+
+    const response = await axios(payload);
     return response;
   }, []);
 

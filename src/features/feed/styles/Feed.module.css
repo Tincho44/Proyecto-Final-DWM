@@ -11,13 +11,21 @@
     margin: 30px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 50%;
-    max-width: 500px;
+    gap: 10px;
+    max-width: 700px;
+    width: 90%;
 }
 
 .friendsChips{
+    overflow-y: visible;
     display: flex;
     gap: 20px;
     overflow-x: auto;
+    flex-shrink: 0;
+}
+
+.friendsChipsText{
+    font-size: 14px;
+    font-weight: 600;
+    color: #8E8E8E;
 }
