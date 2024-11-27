@@ -4,13 +4,17 @@ const useCommentService = () => {
   const { doRequest } = useApi();
 
   const createComment = async (postId, content) => {
-    const response = await doRequest(
-      `posts/${postId}/comments`,
-      "POST",
-      { content },
-      false 
-    );
-    return response;
+    try {
+      const response = await doRequest(
+        `posts/${postId}/comments`,
+          "POST",
+        { content },
+        true
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
   };
 
   const deleteComment = async (postId, commentId) => {
@@ -28,12 +32,18 @@ const useCommentService = () => {
       `posts/comments/${commentId}`,
       "GET",
       null,
-      false 
+      true 
     );
     return response;
   };
 
+  
+
   return { createComment, deleteComment, getComment };
+
+  
+  
 };
+
 
 export default useCommentService;
