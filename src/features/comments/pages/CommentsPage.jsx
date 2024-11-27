@@ -58,7 +58,7 @@ const CommentsPage = ({ post, isOpen, onClose }) => {
                 }}
               >
                 <p style={{ margin: 0 }}>
-                  <strong>{comment.username}</strong>
+                  <strong>{comment.user.username || comment.username}</strong>
                 </p>
                 <p style={{ margin: 0 }}>{comment.content}</p>
               </li>
