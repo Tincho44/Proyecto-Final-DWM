@@ -24,7 +24,7 @@ const useUserService = () => {
   };
 
   const editUserProfile = async (profileData) => {
-    const response = await doRequest('user/profile/edit', 'PUT', profileData, false);
+    const response = await doRequest('user/profile/edit', 'PUT', profileData, true);
     return response;
   };
 

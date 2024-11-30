@@ -8,7 +8,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { getAllUsers, addFriend: addFriendService, removeFriend: removeFriendService } = UserService();
+  const { getAllUsers, addFriend: addFriendService, removeFriend: removeFriendService , editUserProfile: editUserProfileService } = UserService();
   const { user: authUser } = useContext(AuthContext);
 
 
@@ -56,8 +56,18 @@ export const UserProvider = ({ children }) => {
     }
   }
 
+  const editUserProfile = async (profileData) => {
+    try {
+      const response = await editUserProfileService(profileData);
+      return response;
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al editar el perfil");
+    }
+  }
+
   return (
-    <UserContext.Provider value={{ getFriends, friends, loading, addFriend, removeFriend }}>
+    <UserContext.Provider value={{ getFriends, friends, loading, addFriend, removeFriend, editUserProfile }}>
       {children}
     </UserContext.Provider>
   );

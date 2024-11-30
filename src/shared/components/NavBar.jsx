@@ -12,7 +12,9 @@ function NavBar() {
     }
 
     const isSelected = (path) => {
-        return window.location.pathname === path ? navbarCSS.selected : '';
+        if (window.location.pathname.includes(path)) {
+            return navbarCSS.selected;
+        }
     }
 
     return (
@@ -35,7 +37,7 @@ function NavBar() {
                         </Link>
                     </li>
                     <li className={navbarCSS.navItemOnlyDesk}>
-                        <Link to="/post" className={navbarCSS.navItem + ' ' + isSelected('/post')}>
+                        <Link to="/create-post" className={navbarCSS.navItem + ' ' + isSelected('/create-post')}>
                             <FiPlusSquare size={22} />
                             <span>Postear</span>
                         </Link>

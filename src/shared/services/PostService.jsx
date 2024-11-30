@@ -13,7 +13,7 @@ const usePostService = () => {
     formData.append("caption", caption);
     formData.append("image", file);
 
-    const response = await doRequest("posts/upload", "POST", formData, true);
+    const response = await doRequest("posts/upload", "POST", formData, true, 'multipart/form-data');
     return response;
   };
 

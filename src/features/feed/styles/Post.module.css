@@ -36,6 +36,7 @@
 }
 
 .userInfo {
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -119,3 +120,34 @@
     font-size: 15px;
     font-weight: 500;
 }
+
+.postComments{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.postComments p {
+    margin: 0px;
+    color: #8E8E8E;
+}
+
+.createPost{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.form input[type='file'] {
+    aspect-ratio: 1/1;
+}
+

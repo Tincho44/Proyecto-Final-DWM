@@ -239,9 +239,8 @@ button:disabled:hover {
 .modal-content {
   background-color: #fff;
   width: 90%;
-  max-width: 500px;
-  padding: 20px;
-  border-radius: 8px;
+  height: 80%;
+  display: flex;
 }
 
 .no-data-container{

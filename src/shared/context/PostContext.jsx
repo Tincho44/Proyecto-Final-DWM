@@ -8,7 +8,7 @@ export const PostContext = createContext();
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { getFeed, likePost, unlikePost } = PostService();
+  const { getFeed, likePost, unlikePost, uploadPost: uploadPostService } = PostService();
   const { user } = useContext(AuthContext);
 
   const fetchPosts = async () => {
@@ -18,7 +18,11 @@ export const PostProvider = ({ children }) => {
       response.data.forEach(post => {
         post.imageUrl = `http://64.23.228.143:3001/${post.imageUrl}`;
         if (post.user.profilePicture) {
-          post.user.profilePicture = `http://64.23.228.143:3001/${post.user.profilePicture}`;
+          if(post.user.profilePicture.includes("http://") || post.user.profilePicture.includes("https://")) {
+            post.user.profilePicture = post.user.profilePicture;
+          } else {
+            post.user.profilePicture = `http://64.23.228.143:3001/${post.user.profilePicture}`;
+          }
         } else {
           post.user.profilePicture = "http://64.23.228.143:3001/uploads/default-profile.jpg";
         }
@@ -28,6 +32,17 @@ export const PostProvider = ({ children }) => {
       toast.error("Error al cargar los posts");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const uploadPost = async (caption, file) => {
+    try {
+      const response = await uploadPostService(caption, file);
+      const newPosts = [response.data, ...posts];
+      setPosts(newPosts);
+    }
+    catch (error) {
+      toast.error("Error al subir post");
     }
   };
 
@@ -62,7 +77,7 @@ export const PostProvider = ({ children }) => {
   }
 
   return (
-    <PostContext.Provider value={{ posts, loading, fetchPosts, hitlikePost, hitUnlikePost }}>
+    <PostContext.Provider value={{ posts, loading, fetchPosts, hitlikePost, hitUnlikePost, uploadPost }}>
       {children}
     </PostContext.Provider>
   );

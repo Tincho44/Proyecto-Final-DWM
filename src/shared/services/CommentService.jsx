@@ -37,11 +37,7 @@ const useCommentService = () => {
     return response;
   };
 
-  
-
-  return { createComment, deleteComment, getComment };
-
-  
+  return { createComment, deleteComment, getComment };  
   
 };
 

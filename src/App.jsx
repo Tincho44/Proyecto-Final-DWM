@@ -6,6 +6,7 @@ import { ProfileProvider } from 'shared/context/ProfileContext';
 import LoginPage from 'features/auth/pages/LoginPage';
 import RegisterPage from 'features/auth/pages/RegisterPage';
 import FeedPage from 'features/feed/pages/FeedPage';
+import CreatePostPage from 'features/feed/pages/CreatePostPage';
 import PrivateRoute from 'shared/navigation/PrivateRoute';
 import UnAuthRoute from 'shared/navigation/UnAuthRoute';
 import LayoutedRoute from 'shared/navigation/LayoutedRoute';
@@ -31,11 +32,10 @@ function App() {
                 <Route element={<PrivateRoute />}>
                   <Route element={<LayoutedRoute />}>
                     <Route path="/" element={<FeedPage />} />
+                    <Route path="/create-post" element={<CreatePostPage />} />
                   </Route>
                   <Route element={<LayoutedRoute />}>
-                    <Route path="/comments" element={<CommentsPage />} />
                     <Route path="/profile/:idUser" element={<ProfilePage />} />
-                    {/* <Route path="/profile/user/:idUsuario" element={<VistaUsuario />} /> */}
                   </Route>
                 </Route>
                 <Route path="*" element={<WIPPage />} />
